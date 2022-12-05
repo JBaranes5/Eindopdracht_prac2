@@ -1,4 +1,4 @@
-from eindopdracht.controller import ArduinoVISADevice, list_devices
+from controller import ArduinoVISADevice, list_devices
 import numpy as np
 import os
 import threading

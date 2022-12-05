@@ -1,5 +1,5 @@
-from eindopdracht.GUI import Ui_MainWindow
-from eindopdracht.model import ZonnecelExperiment
+from GUI import Ui_MainWindow
+from model import ZonnecelExperiment
 import sys
 from PySide6 import QtWidgets, QtCore
 import pyqtgraph as pg
