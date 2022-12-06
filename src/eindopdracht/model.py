@@ -99,7 +99,7 @@ def calcRVar(U, I):
         I (float): the total amperage that the solar cell produces
 
     Returns:
-        _type_: _description_
+        float: the resistance of the variable resistance
     """    
     R = U/ I
     RVartemp = (1 / R) - (1 / 3e9)
