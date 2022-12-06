@@ -1,5 +1,5 @@
 from eindopdracht.GUI import Ui_MainWindow
-from eindopdracht.model import ZonnecelExperiment
+from eindopdracht.model import ZonnecelExperiment, list_devices_model, identify_device
 import sys
 from PySide6 import QtWidgets, QtCore
 import pyqtgraph as pg
@@ -23,6 +23,27 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.list_devices = list_devices_model()
+        self.ui.comboBoxDevice.addItems(self.list_devices)
+        self.ui.comboBoxDevice.currentTextChanged.connect(self.deviceChanged)
+        self.ui.comboBoxDevice.setCurrentText("ASRL4::INSTR")
+    
+    def deviceChanged(self, input_value):
+        """set a new device to run the scan on from a change in the element
+
+        Args:
+            input_value (string): the new port name of the device to run the scan on
+        """      
+        # if identify_device does not give an error
+        try:
+            identify_device(input_value)
+            self.device = input_value
+
+        # if identify_device gives an error
+        except:
+            # give an error and set the combo box back to what it was
+            #self.ui.labelErrors.setText(f"The port {input_value} is not an Arduino")
+            self.ui.comboBoxDevice.setCurrentText(self.device)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
