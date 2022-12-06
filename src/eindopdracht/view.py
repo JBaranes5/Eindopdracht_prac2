@@ -23,11 +23,30 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+
         self.list_devices = list_devices_model()
+        self.device = self.setDevice()
         self.ui.comboBoxDevice.addItems(self.list_devices)
+        self.ui.comboBoxDevice.setCurrentText(self.device)
         self.ui.comboBoxDevice.currentTextChanged.connect(self.deviceChanged)
-        self.ui.comboBoxDevice.setCurrentText("ASRL4::INSTR")
-    
+        
+
+        
+    def setDevice()
+        """run through all connected devices to check what is an Arduino
+
+        Returns:
+            str: the first device found that is an Arduino
+        """        
+        indicator = 0
+        counter = 0
+        while indicator == 0
+            try:
+                identify_device(self.list_devices[counter])
+            except:
+                counter += 1
+        return self.list_devices[counter]
+
     def deviceChanged(self, input_value):
         """set a new device to run the scan on from a change in the element
 
