@@ -32,7 +32,7 @@ class UserInterface(QtWidgets.QMainWindow):
         
 
         
-    def setDevice()
+    def setDevice(self):
         """run through all connected devices to check what is an Arduino
 
         Returns:
