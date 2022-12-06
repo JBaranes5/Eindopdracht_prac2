@@ -75,6 +75,38 @@ def digitalToAnalog(digital):
     analog = (digital / 1024) * 3.3
     return analog
 
+# calculate the U total and I total
+def calcUI(U1, U2):
+    """calculate the total U and I that the solar cell produces
+
+    Args:
+        U1 (float): the voltage that is measured by channel 1 from the arduino
+        U2 (float): the voltage that is measured by channel 2 from the arduino
+
+    Returns:
+        floats: the total U and I that the solar cell produces
+    """    
+    I = U2 / 4.7
+    U = U1 * 3
+    return U, I
+
+# calculate the resistance of the MOSFET
+def calcRVar(U, I):
+    """calculate the resistance of the variable resistance
+
+    Args:
+        U (float): the total voltage that the solar cell produces
+        I (float): the total amperage that the solar cell produces
+
+    Returns:
+        _type_: _description_
+    """    
+    R = U/ I
+    RVartemp = (1 / R) - (1 / 3e9)
+    RVar = (1 / RVartemp) - 4.7
+    return RVar
+
+
 
 
 
