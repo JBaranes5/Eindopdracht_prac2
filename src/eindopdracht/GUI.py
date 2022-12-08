@@ -17,8 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QLabel, QLineEdit, QMainWindow, QPushButton,
-    QSizePolicy, QSpinBox, QStatusBar, QVBoxLayout,
-    QWidget)
+    QSizePolicy, QSpinBox, QStackedWidget, QStatusBar,
+    QVBoxLayout, QWidget)
 
 from pyqtgraph import PlotWidget
 
@@ -26,15 +26,44 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 795)
+        MainWindow.resize(931, 869)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
+        self.verticalLayoutWidget = QWidget(self.centralwidget)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(0, 0, 801, 821))
+        self.verticalLayout_6 = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.stackedWidget = QStackedWidget(self.verticalLayoutWidget)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.page_1_run = QWidget()
+        self.page_1_run.setObjectName(u"page_1_run")
+        self.verticalLayoutWidget_2 = QWidget(self.page_1_run)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
         self.verticalLayoutWidget_2.setGeometry(QRect(0, 0, 791, 771))
         self.verticalLayout_5 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.pushButtonRunTab = QPushButton(self.verticalLayoutWidget_2)
+        self.pushButtonRunTab.setObjectName(u"pushButtonRunTab")
+        self.pushButtonRunTab.setCheckable(False)
+        self.pushButtonRunTab.setFlat(True)
+
+        self.horizontalLayout_7.addWidget(self.pushButtonRunTab)
+
+        self.pushButtonAnalyseTab_2 = QPushButton(self.verticalLayoutWidget_2)
+        self.pushButtonAnalyseTab_2.setObjectName(u"pushButtonAnalyseTab_2")
+        self.pushButtonAnalyseTab_2.setCheckable(False)
+        self.pushButtonAnalyseTab_2.setFlat(False)
+
+        self.horizontalLayout_7.addWidget(self.pushButtonAnalyseTab_2)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_7)
+
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.verticalLayout = QVBoxLayout()
@@ -201,6 +230,13 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
 
+        self.stackedWidget.addWidget(self.page_1_run)
+        self.page_2_analyse = QWidget()
+        self.page_2_analyse.setObjectName(u"page_2_analyse")
+        self.stackedWidget.addWidget(self.page_2_analyse)
+
+        self.verticalLayout_6.addWidget(self.stackedWidget)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -213,6 +249,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.pushButtonRunTab.setText(QCoreApplication.translate("MainWindow", u"Run tab", None))
+        self.pushButtonAnalyseTab_2.setText(QCoreApplication.translate("MainWindow", u"Analisis tab", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Set Autoscale", None))
         self.pushButtonRun.setText(QCoreApplication.translate("MainWindow", u"Run", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">Device</p></body></html>", None))
