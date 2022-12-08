@@ -27,11 +27,11 @@ class UserInterface(QtWidgets.QMainWindow):
         self.list_devices = list_devices_model()
         self.setDevice()
         self.ui.comboBoxDevice.addItems(self.list_devices)
-        self.ui.comboBoxDevice.setCurrentText(self.device)
-        self.ui.comboBoxDevice.currentTextChanged.connect(self.deviceChanged)
+        self.ui.comboBoxDevice.setCurrentIndex(self.device)
+        self.ui.comboBoxDevice.currentIndexChanged.connect(self.deviceChanged)
         
         self.startMeasuring()
-
+        self.show()
 
         
     def setDevice(self):
@@ -39,12 +39,13 @@ class UserInterface(QtWidgets.QMainWindow):
         """        
         indicator = 0
         counter = 0
-        while indicator == 0:
+        while indicator == 0 and counter < len(self.list_devices):
             try:
                 identify_device(self.list_devices[counter])
+                indicator = 1
             except:
                 counter += 1
-        self.device =  self.list_devices[counter]
+        self.device =  counter
 
     def deviceChanged(self, input_value):
         """set a new device to run the scan on from a change in the element
@@ -81,7 +82,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.plotWidgetCurrent.setLabel('left', 'I [A]')
     
     def startMeasuring(self):
-        self.suncell = ZonnecelExperiment(self.device)
+        self.suncell = ZonnecelExperiment(self.list_devices[self.device])
 
         self.constant_timer = QtCore.QTimer()
         self.constant_timer.timeout.connect(self.plotConstant)
