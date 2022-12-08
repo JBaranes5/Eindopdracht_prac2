@@ -42,13 +42,19 @@ class ZonnecelExperiment():
         self._constant_thread.start()
 
     def constantMeasurement(self):
-        if self._run_thread.is_alive() == False:
+        try:
+            if self._run_thread.is_alive() == False:
+                self.U1 = self.device.get_input_value(1)
+                self.U2 = self.device.get_input_value(2)
+                self.U, self.I = calcUI(self.U1, self.U2)
+                self.measuring_busy = True
+            else:
+                self.measuring_busy = False
+        except:
+            self.measuring_busy = True
             self.U1 = self.device.get_input_value(1)
             self.U2 = self.device.get_input_value(2)
             self.U, self.I = calcUI(self.U1, self.U2)
-            self.measuring_busy = True
-        else:
-            self.measuring_busy = False
 
     def runStart(self):
         self._run_thread = threading.Thread(
@@ -59,8 +65,11 @@ class ZonnecelExperiment():
         self._run_thread.start()
 
     def run(self):
-        # wait until the constant measurement has stopped
-        while self.measuring_busy() == True:
+        try:
+            # wait until the constant measurement has stopped
+            while self.measuring_busy() == True:
+                pass
+        except:
             pass
 
 
