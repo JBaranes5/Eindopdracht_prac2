@@ -1,5 +1,5 @@
 from eindopdracht.GUI import Ui_MainWindow
-from eindopdracht.model import ZonnecelExperiment, list_devices_model, identify_device
+from eindopdracht.model import ZonnecelExperiment, list_devices_model, identify_device, saveData
 import sys
 from PySide6 import QtWidgets, QtCore
 import pyqtgraph as pg
@@ -86,15 +86,7 @@ class UserInterface(QtWidgets.QMainWindow):
             #"Resistance": self.R_list
             })
 
-            # check what number file exists and create the next one
-            condition = 0
-            counter = 1
-            while condition == 0:
-                if os.path.isfile(f"Data\{self.filename}_{counter}.csv") == True:
-                    counter += 1
-                else:
-                    condition = 1
-            data.to_csv(f"Data\{self.filename}_{counter}.csv")
+            saveData(data)
 
     def run(self):
         if self.runstatus == "Run":
