@@ -42,35 +42,62 @@ class ZonnecelExperiment():
         self._constant_thread.start()
 
     def constantMeasurement(self):
-        try:
-            if self._run_thread.is_alive() == False:
-                self.U1 = self.device.get_input_value(1)
-                self.U2 = self.device.get_input_value(2)
-                self.U, self.I = calcUI(self.U1, self.U2)
-                self.measuring_busy = True
-            else:
-                self.measuring_busy = False
-        except:
-            self.measuring_busy = True
-            self.U1 = self.device.get_input_value(1)
-            self.U2 = self.device.get_input_value(2)
-            self.U, self.I = calcUI(self.U1, self.U2)
+        self.measuring_busy = True
+        self.U1 = digitalToAnalog(self.device.get_input_value(1))
+        self.U2 = digitalToAnalog(self.device.get_input_value(2))
+        self.U, self.I = calcUI(self.U1, self.U2)
 
-    def runStart(self):
+    def runStart(self, amount, stepsize, start, stop):
         self._run_thread = threading.Thread(
-            target = self.run
+            target = self.run, args=(amount, stepsize, start, stop)
         )
-
         self.terminate = False
         self._run_thread.start()
 
-    def run(self):
-        try:
-            # wait until the constant measurement has stopped
-            while self.measuring_busy() == True:
-                pass
-        except:
-            pass
+    def run(self, amount, stepsize, start, stop):
+    
+        self.U_list = []
+        self.I_list = []
+
+        self.U_error_list = []
+        self.I_error_list = []
+
+        counter_U0 = start
+        while counter_U0 <= stop and self.terminate == False:
+            self.device.set_output_value(0, counter_U0)
+
+            counter_runs = 0
+            U_list_temp = []
+            I_list_temp = []
+            while counter_runs < amount:
+                print(counter_runs)
+                print(f"amount: {amount}")
+                try: 
+                    self.U1 = digitalToAnalog(self.device.get_input_value(1))
+                    self.U2 = digitalToAnalog(self.device.get_input_value(2))
+                    self.U, self.I = calcUI(self.U1, self.U2)
+                except:
+                    pass
+
+                U_list_temp.append(self.U)
+                I_list_temp.append(self.I)
+
+                counter_runs += 1
+
+            self.U_list.append(np.average(U_list_temp))
+            self.I_list.append(np.average(I_list_temp))
+            self.U_error_list.append(np.std(U_list_temp))
+            self.I_error_list.append(np.std(I_list_temp))
+
+            counter_U0 += stepsize
+
+        self.device.set_output_value(0, 0)
+        self.close_device()
+
+        
+    def close_device(self):
+        self.device.closedevice()
+
 
 
 
