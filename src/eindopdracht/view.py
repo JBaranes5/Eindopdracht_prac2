@@ -51,6 +51,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.spinBoxStart.valueChanged.connect(self.startChanged)
         self.ui.spinBoxEnd.valueChanged.connect(self.endChanged)
         self.ui.spinBoxStepsize.valueChanged.connect(self.stepsizeChanged)
+        self.ui.spinBoxAmount.valueChanged.connect(self.amountChanged)
 
         self.show()
 

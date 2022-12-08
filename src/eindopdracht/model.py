@@ -70,8 +70,7 @@ class ZonnecelExperiment():
             U_list_temp = []
             I_list_temp = []
             while counter_runs < amount:
-                print(counter_runs)
-                print(f"amount: {amount}")
+
                 try: 
                     self.U1 = digitalToAnalog(self.device.get_input_value(1))
                     self.U2 = digitalToAnalog(self.device.get_input_value(2))
