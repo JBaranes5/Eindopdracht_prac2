@@ -26,44 +26,61 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(931, 869)
+        MainWindow.resize(953, 847)
+        font = QFont()
+        font.setFamilies([u"Tahoma"])
+        MainWindow.setFont(font)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget = QWidget(self.centralwidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(0, 0, 801, 821))
+        self.verticalLayoutWidget.setGeometry(QRect(0, 0, 811, 821))
         self.verticalLayout_6 = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.stackedWidget = QStackedWidget(self.verticalLayoutWidget)
-        self.stackedWidget.setObjectName(u"stackedWidget")
-        self.page_1_run = QWidget()
-        self.page_1_run.setObjectName(u"page_1_run")
-        self.verticalLayoutWidget_2 = QWidget(self.page_1_run)
-        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(0, 0, 791, 771))
-        self.verticalLayout_5 = QVBoxLayout(self.verticalLayoutWidget_2)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.pushButtonRunTab = QPushButton(self.verticalLayoutWidget_2)
+        self.pushButtonRunTab = QPushButton(self.verticalLayoutWidget)
         self.pushButtonRunTab.setObjectName(u"pushButtonRunTab")
+        font1 = QFont()
+        font1.setFamilies([u"Tahoma"])
+        font1.setPointSize(14)
+        font1.setBold(True)
+        self.pushButtonRunTab.setFont(font1)
         self.pushButtonRunTab.setCheckable(False)
         self.pushButtonRunTab.setFlat(True)
 
         self.horizontalLayout_7.addWidget(self.pushButtonRunTab)
 
-        self.pushButtonAnalyseTab_2 = QPushButton(self.verticalLayoutWidget_2)
+        self.pushButtonAnalyseTab_2 = QPushButton(self.verticalLayoutWidget)
         self.pushButtonAnalyseTab_2.setObjectName(u"pushButtonAnalyseTab_2")
+        self.pushButtonAnalyseTab_2.setFont(font1)
         self.pushButtonAnalyseTab_2.setCheckable(False)
         self.pushButtonAnalyseTab_2.setFlat(False)
 
         self.horizontalLayout_7.addWidget(self.pushButtonAnalyseTab_2)
 
 
-        self.verticalLayout_5.addLayout(self.horizontalLayout_7)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_7)
 
+        self.line_2 = QFrame(self.verticalLayoutWidget)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShadow(QFrame.Plain)
+        self.line_2.setLineWidth(5)
+        self.line_2.setFrameShape(QFrame.HLine)
+
+        self.verticalLayout_6.addWidget(self.line_2)
+
+        self.stackedWidget = QStackedWidget(self.verticalLayoutWidget)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.page_1_run = QWidget()
+        self.page_1_run.setObjectName(u"page_1_run")
+        self.verticalLayoutWidget_2 = QWidget(self.page_1_run)
+        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
+        self.verticalLayoutWidget_2.setGeometry(QRect(0, 0, 808, 771))
+        self.verticalLayout_5 = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.verticalLayout = QVBoxLayout()
@@ -233,6 +250,139 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_1_run)
         self.page_2_analyse = QWidget()
         self.page_2_analyse.setObjectName(u"page_2_analyse")
+        self.horizontalLayoutWidget = QWidget(self.page_2_analyse)
+        self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
+        self.horizontalLayoutWidget.setGeometry(QRect(0, 0, 820, 771))
+        self.horizontalLayout_8 = QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.label_8 = QLabel(self.horizontalLayoutWidget)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setMinimumSize(QSize(101, 0))
+        self.label_8.setFont(font)
+
+        self.verticalLayout_7.addWidget(self.label_8)
+
+        self.labelFitPar1 = QLabel(self.horizontalLayoutWidget)
+        self.labelFitPar1.setObjectName(u"labelFitPar1")
+        self.labelFitPar1.setMaximumSize(QSize(16777215, 71))
+        self.labelFitPar1.setFont(font)
+
+        self.verticalLayout_7.addWidget(self.labelFitPar1)
+
+        self.spinBoxFitPar1 = QSpinBox(self.horizontalLayoutWidget)
+        self.spinBoxFitPar1.setObjectName(u"spinBoxFitPar1")
+
+        self.verticalLayout_7.addWidget(self.spinBoxFitPar1)
+
+        self.labelFitPar2 = QLabel(self.horizontalLayoutWidget)
+        self.labelFitPar2.setObjectName(u"labelFitPar2")
+        self.labelFitPar2.setMaximumSize(QSize(16777215, 61))
+        self.labelFitPar2.setFont(font)
+
+        self.verticalLayout_7.addWidget(self.labelFitPar2)
+
+        self.spinBoxFitPar2 = QSpinBox(self.horizontalLayoutWidget)
+        self.spinBoxFitPar2.setObjectName(u"spinBoxFitPar2")
+
+        self.verticalLayout_7.addWidget(self.spinBoxFitPar2)
+
+        self.labelFitPar3 = QLabel(self.horizontalLayoutWidget)
+        self.labelFitPar3.setObjectName(u"labelFitPar3")
+        self.labelFitPar3.setMaximumSize(QSize(16777215, 51))
+        self.labelFitPar3.setFont(font)
+
+        self.verticalLayout_7.addWidget(self.labelFitPar3)
+
+        self.spinBoxFitPar3 = QSpinBox(self.horizontalLayoutWidget)
+        self.spinBoxFitPar3.setObjectName(u"spinBoxFitPar3")
+
+        self.verticalLayout_7.addWidget(self.spinBoxFitPar3)
+
+        self.pushButtonFit = QPushButton(self.horizontalLayoutWidget)
+        self.pushButtonFit.setObjectName(u"pushButtonFit")
+        self.pushButtonFit.setFlat(True)
+
+        self.verticalLayout_7.addWidget(self.pushButtonFit)
+
+        self.line_5 = QFrame(self.horizontalLayoutWidget)
+        self.line_5.setObjectName(u"line_5")
+        self.line_5.setFrameShadow(QFrame.Plain)
+        self.line_5.setLineWidth(2)
+        self.line_5.setFrameShape(QFrame.HLine)
+
+        self.verticalLayout_7.addWidget(self.line_5)
+
+        self.label_9 = QLabel(self.horizontalLayoutWidget)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setFont(font)
+
+        self.verticalLayout_7.addWidget(self.label_9)
+
+        self.label_14 = QLabel(self.horizontalLayoutWidget)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setMaximumSize(QSize(16777215, 21))
+        self.label_14.setFont(font)
+
+        self.verticalLayout_7.addWidget(self.label_14)
+
+        self.pushButtonFillFactor = QPushButton(self.horizontalLayoutWidget)
+        self.pushButtonFillFactor.setObjectName(u"pushButtonFillFactor")
+        self.pushButtonFillFactor.setFont(font)
+        self.pushButtonFillFactor.setFlat(True)
+
+        self.verticalLayout_7.addWidget(self.pushButtonFillFactor)
+
+
+        self.horizontalLayout_8.addLayout(self.verticalLayout_7)
+
+        self.line_4 = QFrame(self.horizontalLayoutWidget)
+        self.line_4.setObjectName(u"line_4")
+        self.line_4.setFrameShadow(QFrame.Plain)
+        self.line_4.setLineWidth(4)
+        self.line_4.setFrameShape(QFrame.VLine)
+
+        self.horizontalLayout_8.addWidget(self.line_4)
+
+        self.verticalLayout_8 = QVBoxLayout()
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.plotWidgetFit = PlotWidget(self.horizontalLayoutWidget)
+        self.plotWidgetFit.setObjectName(u"plotWidgetFit")
+        self.plotWidgetFit.setMinimumSize(QSize(698, 711))
+
+        self.verticalLayout_8.addWidget(self.plotWidgetFit)
+
+        self.line_3 = QFrame(self.horizontalLayoutWidget)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setFrameShadow(QFrame.Plain)
+        self.line_3.setLineWidth(4)
+        self.line_3.setFrameShape(QFrame.HLine)
+
+        self.verticalLayout_8.addWidget(self.line_3)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label_10 = QLabel(self.horizontalLayoutWidget)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setFont(font)
+
+        self.horizontalLayout_9.addWidget(self.label_10)
+
+        self.comboBoxFunction = QComboBox(self.horizontalLayoutWidget)
+        self.comboBoxFunction.addItem("")
+        self.comboBoxFunction.addItem("")
+        self.comboBoxFunction.setObjectName(u"comboBoxFunction")
+
+        self.horizontalLayout_9.addWidget(self.comboBoxFunction)
+
+
+        self.verticalLayout_8.addLayout(self.horizontalLayout_9)
+
+
+        self.horizontalLayout_8.addLayout(self.verticalLayout_8)
+
         self.stackedWidget.addWidget(self.page_2_analyse)
 
         self.verticalLayout_6.addWidget(self.stackedWidget)
@@ -266,5 +416,17 @@ class Ui_MainWindow(object):
         self.pushButtonSave.setText(QCoreApplication.translate("MainWindow", u"Save", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Errors:", None))
         self.labelErrors.setText("")
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:11pt;\">Fitting</span></p></body></html>", None))
+        self.labelFitPar1.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">param 1</p></body></html>", None))
+        self.labelFitPar2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">param 2</p></body></html>", None))
+        self.labelFitPar3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">param 3</p></body></html>", None))
+        self.pushButtonFit.setText(QCoreApplication.translate("MainWindow", u"Fit", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">Fill Factor:</p></body></html>", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">ff</p></body></html>", None))
+        self.pushButtonFillFactor.setText(QCoreApplication.translate("MainWindow", u"Calculate", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Function to plot:", None))
+        self.comboBoxFunction.setItemText(0, QCoreApplication.translate("MainWindow", u"U against I", None))
+        self.comboBoxFunction.setItemText(1, QCoreApplication.translate("MainWindow", u"P against R", None))
+
     # retranslateUi
 

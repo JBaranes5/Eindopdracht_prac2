@@ -27,15 +27,23 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # menu bar
+        self.ui.pushButtonRunTab.clicked.connect(self.runTab)
+        self.ui.pushButtonAnalyseTab_2.clicked.connect(self.analisisTab)
+
+        # page 1 (run tab)
 
         self.list_devices = list_devices_model()
         self.setDeviceStart()
 
-        self.autoscale, self.runstatus, self.filename = 0.1, "Can't run until devices are loaded", "none"
-        self.start, self.end, self.stepsize, self.amount = 0, 1023, 1, 1
+        self.autoscale, self.runstatus, self.filename = 0.05, "Can't run until devices are loaded", "none"
+        self.start, self.end, self.stepsize, self.amount = 0, 1023, 1, 3
 
         self.ui.comboBoxDevice.addItem("Devices are loading")
         self.ui.pushButtonRun.setText(self.runstatus)
+
+        self.ui.plotWidgetUI.setLabel('left', 'I [A]')
+        self.ui.plotWidgetUI.setLabel('bottom', 'U [V]')
 
         self.ui.spinBoxStart.setValue(self.start)
         self.ui.spinBoxEnd.setValue(self.end)
@@ -53,7 +61,54 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.spinBoxStepsize.valueChanged.connect(self.stepsizeChanged)
         self.ui.spinBoxAmount.valueChanged.connect(self.amountChanged)
 
+        # page 2 (analisis tab)
+        self.ui.plotWidgetFit.setLabel('left', 'I [A]')
+        self.ui.plotWidgetFit.setLabel('bottom', 'U [V]')
+
+        self.ui.pushButtonFit.clicked.connect(self.fit)
+        self.ui.pushButtonFillFactor.clicked.connect(self.fillFactor)
+
+        self.ui.comboBoxFunction.currentIndexChanged.connect(self.functionChanged)
+        self.ui.spinBoxFitPar1.valueChanged.connect(self.fitPar1Changed)
+        self.ui.spinBoxFitPar2.valueChanged.connect(self.fitPar2Changed)
+        self.ui.spinBoxFitPar3.valueChanged.connect(self.fitPar3Changed)
+
         self.show()
+
+    def fitPar1Changed(self):
+        pass
+
+    def fitPar2Changed(self):
+        pass
+
+    def fitPar3Changed(self):
+        pass
+
+    def fillFactor(self):
+        pass
+
+    def fit(self):
+        
+        self.ui.pushButtonFillFactor.setFlat(False)
+
+    def functionChanged(self, input_value):
+        if input_value == 0:
+            # function = UI
+            pass
+
+        else:
+            # function = PR
+            pass
+
+    def runTab(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_1_run)
+        self.ui.pushButtonRunTab.setFlat(True)
+        self.ui.pushButtonAnalyseTab_2.setFlat(False)
+    
+    def analisisTab(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_2_analyse)
+        self.ui.pushButtonAnalyseTab_2.setFlat(True)
+        self.ui.pushButtonRunTab.setFlat(False)
 
     def startChanged(self, input_value):
         self.start = input_value
@@ -132,17 +187,21 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.plotWidgetUI.setLabel('bottom', 'U [V]')
 
         if self.suncell._run_thread.is_alive() == False:
-            self.U_list = self.suncell.U_list
-            self.I_list = self.suncell.I_list
-            self.U_error_list = self.suncell.U_error_list
-            self.I_error_list = self.suncell.I_error_list
+            self.runStop()
 
-            self.run_timer.stop()
-            self.run_timer2.stop()
-            #self.suncell.close_device()
-            self.startMeasuring()
+    def runStop(self):
+        self.U_list = self.suncell.U_list
+        self.I_list = self.suncell.I_list
+        self.U_error_list = self.suncell.U_error_list
+        self.I_error_list = self.suncell.I_error_list
 
-    
+        self.run_timer.stop()
+        self.run_timer2.stop()
+        #self.suncell.close_device()
+        self.startMeasuring()
+        
+        self.ui.pushButtonFit.setFlat(False)
+
     def plotConstantDuringRun(self):
         scatter = pg.ScatterPlotItem(size = 20)
         scatter.setData([0], [self.suncell.I])
