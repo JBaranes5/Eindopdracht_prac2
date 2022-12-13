@@ -58,9 +58,12 @@ class ZonnecelExperiment():
     
         self.U_list = []
         self.I_list = []
+        self.P_list = []
+        self.R_list = []
 
         self.U_error_list = []
         self.I_error_list = []
+        self.P_error_list = []
 
         counter_U0 = start
         while counter_U0 <= stop and self.terminate == False:
@@ -69,24 +72,34 @@ class ZonnecelExperiment():
             counter_runs = 0
             U_list_temp = []
             I_list_temp = []
+            R_list_temp = []
+            P_list_temp = []
             while counter_runs < amount:
 
                 try: 
                     self.U1 = digitalToAnalog(self.device.get_input_value(1))
                     self.U2 = digitalToAnalog(self.device.get_input_value(2))
                     self.U, self.I = calcUI(self.U1, self.U2)
+                    self.R = calcRVar(self.U, self.I)
+                    self.P = self.U * self.I
                 except:
                     pass
 
                 U_list_temp.append(self.U)
                 I_list_temp.append(self.I)
+                P_list_temp.append(self.P)
+                R_list_temp.append(self.R)
 
                 counter_runs += 1
 
             self.U_list.append(np.average(U_list_temp))
             self.I_list.append(np.average(I_list_temp))
+            self.P_list.append(np.average(P_list_temp))
+            self.R_list.append(np.average(R_list_temp))
+
             self.U_error_list.append(np.std(U_list_temp))
             self.I_error_list.append(np.std(I_list_temp))
+            self.P_error_list.append(np.std(P_list_temp))
 
             counter_U0 += stepsize
 

@@ -50,7 +50,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.spinBoxStepsize.setValue(self.stepsize)
         self.ui.spinBoxAmount.setValue(self.amount)
 
-        self.ui.pushButtonExit.clicked.connect(self.close)
+        self.ui.pushButtonExit.clicked.connect(self.closeProgram)
         self.ui.pushButtonRun.clicked.connect(self.run)
         self.ui.pushButton.clicked.connect(self.autoscaleClicked)
         self.ui.pushButtonSave.clicked.connect(self.save)
@@ -62,6 +62,8 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.spinBoxAmount.valueChanged.connect(self.amountChanged)
 
         # page 2 (analisis tab)
+        self.graph = "UI"
+
         self.ui.plotWidgetFit.setLabel('left', 'I [A]')
         self.ui.plotWidgetFit.setLabel('bottom', 'U [V]')
 
@@ -74,6 +76,12 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.spinBoxFitPar3.valueChanged.connect(self.fitPar3Changed)
 
         self.show()
+
+    def closeProgram(self):
+        self.suncell.terminate = True
+        self.run_timer.stop()
+        self.run_timer2.stop()
+        self.close()
 
     def fitPar1Changed(self):
         pass
@@ -94,11 +102,38 @@ class UserInterface(QtWidgets.QMainWindow):
     def functionChanged(self, input_value):
         if input_value == 0:
             # function = UI
-            pass
+            self.graph = "UI"
+            self.ui.plotWidgetFit.clear()
+
+            if self.run_timer.isActive() == False:
+                self.plotAnalysis()
 
         else:
             # function = PR
-            pass
+            self.graph = "PR"
+            self.ui.plotWidgetFit.clear()
+
+            if self.run_timer.isActive() == False:
+                self.plotAnalysis()
+
+    def plotAnalysis(self):
+        error_analysis = pg.ErrorBarItem(beam=0.01)
+        scatter_analysis = pg.ScatterPlotItem(size = 7)
+
+        if self.graph == "UI":
+            scatter_analysis.setData(self.U_list, self.I_list)
+            error_analysis.setData(x = np.asarray(self.U_list), y = np.asarray(self.I_list), top=np.asarray(self.I_error_list), bottom=np.asarray(self.I_error_list))
+
+            self.ui.plotWidgetUI.setLabel('left', 'I [A]')
+            self.ui.plotWidgetUI.setLabel('bottom', 'U [V]')
+        else:
+            scatter_analysis.setData(self.R_list, self.P_list)
+            error_analysis.setData(x = np.asarray(self.R_list), y = np.asarray(self.P_list), top=np.asarray(self.P_error_list), bottom=np.asarray(self.P_error_list))
+
+            self.ui.plotWidgetUI.setLabel('left', 'P [W]')
+            self.ui.plotWidgetUI.setLabel('bottom', 'R [\u03A9]')
+        self.ui.plotWidgetFit.addItem(scatter_analysis)
+        self.ui.plotWidgetFit.addItem(error_analysis)
 
     def runTab(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1_run)
@@ -174,6 +209,7 @@ class UserInterface(QtWidgets.QMainWindow):
             self.startMeasuring()
 
     def plotRun(self):
+        # page 1
         scatter = pg.ScatterPlotItem(size = 7)
         scatter.setData(self.suncell.U_list, self.suncell.I_list)
 
@@ -186,14 +222,37 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.plotWidgetUI.setLabel('left', 'I [A]')
         self.ui.plotWidgetUI.setLabel('bottom', 'U [V]')
 
+        # page 2
+        error_analysis = pg.ErrorBarItem(beam=0.01)
+        scatter_analysis = pg.ScatterPlotItem(size = 7)
+
+        if self.graph == "UI":
+            scatter_analysis.setData(self.suncell.U_list, self.suncell.I_list)
+            error_analysis.setData(x = np.asarray(self.suncell.U_list), y = np.asarray(self.suncell.I_list), top=np.asarray(self.suncell.I_error_list), bottom=np.asarray(self.suncell.I_error_list))
+
+            self.ui.plotWidgetUI.setLabel('left', 'I [A]')
+            self.ui.plotWidgetUI.setLabel('bottom', 'U [V]')
+        else:
+            scatter_analysis.setData(self.suncell.R_list, self.suncell.P_list)
+            error_analysis.setData(x = np.asarray(self.suncell.R_list), y = np.asarray(self.suncell.P_list), top=np.asarray(self.suncell.P_error_list), bottom=np.asarray(self.suncell.P_error_list))
+
+            self.ui.plotWidgetUI.setLabel('left', 'P [W]')
+            self.ui.plotWidgetUI.setLabel('bottom', 'R [\u03A9]')
+        self.ui.plotWidgetFit.addItem(scatter_analysis)
+        self.ui.plotWidgetFit.addItem(error_analysis)
+
         if self.suncell._run_thread.is_alive() == False:
             self.runStop()
 
     def runStop(self):
         self.U_list = self.suncell.U_list
         self.I_list = self.suncell.I_list
+        self.P_list = self.suncell.P_list
+        self.R_list = self.suncell.R_list
+
         self.U_error_list = self.suncell.U_error_list
         self.I_error_list = self.suncell.I_error_list
+        self.P_error_list = self.suncell.P_error_list
 
         self.run_timer.stop()
         self.run_timer2.stop()
@@ -269,8 +328,6 @@ class UserInterface(QtWidgets.QMainWindow):
 
     def plotConstant(self):
         self.suncell.constantMeasurement()
-        
-        self.suncell.measuring_busy = False
 
         scatter = pg.ScatterPlotItem(size = 20)
         scatter.setData([0], [self.suncell.I])
@@ -281,6 +338,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.ui.plotWidgetCurrent.setLabel('left', 'I [A]')
         self.ui.plotWidgetCurrent.setYRange(0, self.autoscale)
 
+        self.suncell.measuring_busy = False
     
     def startMeasuring(self):
         self.suncell = ZonnecelExperiment(self.list_devices[self.device])
